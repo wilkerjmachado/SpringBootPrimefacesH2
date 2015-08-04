@@ -1,5 +1,7 @@
 package org.enquete.framework.service.impl;
 
+import java.util.List;
+
 import org.enquete.framework.dominio.Entidade;
 import org.enquete.framework.service.AppService;
 import org.springframework.data.repository.CrudRepository;
@@ -18,6 +20,11 @@ public abstract class AppServiceImpl<E extends Entidade, T extends CrudRepositor
 
 		repository.delete(entidade);
 
+	}
+
+	public List<E> getAll() {
+
+		return (List<E>) repository.findAll();
 	}
 
 }
