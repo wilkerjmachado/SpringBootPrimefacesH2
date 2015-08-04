@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.enquete.framework.dominio.Entidade;
 
-public interface AppService<E extends Entidade> {
+public interface GenericService<E extends Entidade> {
 
 	public E saveOrUpdate(E entidade);
 
