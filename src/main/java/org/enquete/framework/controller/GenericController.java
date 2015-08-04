@@ -4,6 +4,9 @@ import java.lang.reflect.Type;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
 
 import org.enquete.framework.dominio.Entidade;
 import org.enquete.framework.formulario.GenericForm;
@@ -30,22 +33,24 @@ public abstract class GenericController<E extends Entidade, F extends GenericFor
 		this.iniciarCampos();
 	}
 
-	public String salvar() {
+	public void salvar() {
 
 		this.getService().saveOrUpdate(this.getFormulario().getEntidade());
 
 		this.iniciarCampos();
 
-		return this.getListView();
+		this.mostrarMensagem("Item salvo com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
+
 	}
-	
-	public String remover(E entidade) {
+
+	public void remover(E entidade) {
 
 		this.getService().delete(entidade);
+		
+		this.mostrarMensagem("Item excluído com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
 
 		this.iniciarCampos();
 
-		return this.getListView();
 	}
 
 	protected void iniciarCampos() {
@@ -63,20 +68,23 @@ public abstract class GenericController<E extends Entidade, F extends GenericFor
 
 	}
 
-	public String novaEntidade() {
+	public void novaEntidade() {
 
 		try {
 
 			this.getFormulario().setEntidade(this.getTipoEntidade().newInstance());
 
-			return this.getEditView();
-
 		} catch (final Exception e) {
 
 			Logger.getLogger(this.getClass().getName()).info("ERROR: " + e.getMessage());
 
-			return null;
 		}
+	}
+	
+	public void mostrarMensagem(String msg, String titulo, Severity severity){
+		
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, titulo, msg));
+		
 	}
 
 	public F getFormulario() {
@@ -84,20 +92,9 @@ public abstract class GenericController<E extends Entidade, F extends GenericFor
 		return formulario;
 	}
 
-	
 	public S getService() {
-		
+
 		return service;
-	}
-
-	public String getEditView() {
-
-		return "pm:edit?transition=flip";
-	}
-
-	public String getListView() {
-
-		return "pm:list?transition=flip";
 	}
 
 	@SuppressWarnings("unchecked")

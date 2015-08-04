@@ -1,5 +1,7 @@
 package org.enquete.app.controller;
 
+import javax.faces.application.FacesMessage;
+
 import org.enquete.app.dominio.Pergunta;
 import org.enquete.app.dominio.Resposta;
 import org.enquete.app.formulario.PerguntaFormulario;
@@ -22,15 +24,32 @@ public class EnqueteController extends GenericController<Pergunta, PerguntaFormu
 
 	}
 
-	public void salvarResposta(Pergunta pergunta){
+	public void salvarResposta(){
 		
-		this.getFormulario().getResposta().setPergunta(pergunta);
+		this.getFormulario().getResposta().setPergunta(this.getFormulario().getEntidade());
 		
 		this.respostaService.saveOrUpdate(this.getFormulario().getResposta());
 		
-		this.getFormulario().setEntidade(this.getService().findOne(this.getFormulario().getEntidade().getId()));;
+		this.getFormulario().setEntidade(this.getService().findOne(this.getFormulario().getEntidade().getId()));
 		
 		this.getFormulario().setResposta(new Resposta());
+		
+		this.mostrarMensagem("Item excluído com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
+	}
+	
+	public void visualizarRespostas(Pergunta pergunta){
+		
+		this.getFormulario().setEntidade(pergunta);
+		
+		this.getFormulario().setMostrarRespostas(Boolean.TRUE);
+		
+	}
+	
+	public void mostrarEnquetes(){
+		
+		this.iniciarCampos();
+		
+		this.getFormulario().setMostrarRespostas(Boolean.FALSE);
 	}
 	
 	@Override
