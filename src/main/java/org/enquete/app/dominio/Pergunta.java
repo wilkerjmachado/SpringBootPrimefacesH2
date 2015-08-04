@@ -14,7 +14,8 @@ public class Pergunta extends Entidade {
 
 	private String texto;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pergunta", cascade = CascadeType.ALL)
+	// TODO Coloquei EAGER mas nao e correto teria que ser LAZY e criar um filtro do spring que inicializa a propriedade sobre demanda
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pergunta", cascade = CascadeType.ALL)
 	private List<Resposta> listaRespostas;
 
 	public String getTexto() {

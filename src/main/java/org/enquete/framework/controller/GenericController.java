@@ -12,13 +12,13 @@ import org.enquete.framework.service.GenericService;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
 
 @SuppressWarnings("restriction")
-public abstract class GenericController<E extends Entidade> {
+public abstract class GenericController<E extends Entidade, F extends GenericForm<E>, S extends GenericService<E>> {
 
-	private GenericForm<E> formulario;
+	private F formulario;
 
-	private GenericService<E> service;
+	private S service;
 
-	public GenericController(GenericForm<E> formulario, GenericService<E> service) {
+	public GenericController(F formulario, S service) {
 		super();
 		this.formulario = formulario;
 		this.service = service;
@@ -32,20 +32,29 @@ public abstract class GenericController<E extends Entidade> {
 
 	public String salvar() {
 
-		this.service.saveOrUpdate(this.getFormulario().getEntidade());
+		this.getService().saveOrUpdate(this.getFormulario().getEntidade());
 
 		this.iniciarCampos();
 
-		return "pm:list?transition=flip";
+		return this.getListView();
+	}
+	
+	public String remover(E entidade) {
+
+		this.getService().delete(entidade);
+
+		this.iniciarCampos();
+
+		return this.getListView();
 	}
 
-	private void iniciarCampos() {
+	protected void iniciarCampos() {
 
 		try {
 
 			this.getFormulario().setEntidade(this.getTipoEntidade().newInstance());
 
-			this.getFormulario().setLista(this.service.getAll());
+			this.getFormulario().setLista(this.getService().getAll());
 
 		} catch (final Exception e) {
 
@@ -55,13 +64,13 @@ public abstract class GenericController<E extends Entidade> {
 	}
 
 	public String novaEntidade() {
-		
+
 		try {
-			
+
 			this.getFormulario().setEntidade(this.getTipoEntidade().newInstance());
 
-			return "pm:edit?transition=flip";
-			
+			return this.getEditView();
+
 		} catch (final Exception e) {
 
 			Logger.getLogger(this.getClass().getName()).info("ERROR: " + e.getMessage());
@@ -70,9 +79,25 @@ public abstract class GenericController<E extends Entidade> {
 		}
 	}
 
-	public GenericForm<E> getFormulario() {
+	public F getFormulario() {
 
 		return formulario;
+	}
+
+	
+	public S getService() {
+		
+		return service;
+	}
+
+	public String getEditView() {
+
+		return "pm:edit?transition=flip";
+	}
+
+	public String getListView() {
+
+		return "pm:list?transition=flip";
 	}
 
 	@SuppressWarnings("unchecked")

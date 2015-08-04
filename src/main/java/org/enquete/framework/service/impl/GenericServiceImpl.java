@@ -6,7 +6,8 @@ import org.enquete.framework.dominio.Entidade;
 import org.enquete.framework.service.GenericService;
 import org.springframework.data.repository.CrudRepository;
 
-public abstract class GenericServiceImpl<E extends Entidade, T extends CrudRepository<E, Long>> implements GenericService<E> {
+public abstract class GenericServiceImpl<E extends Entidade, T extends CrudRepository<E, Long>>
+		implements GenericService<E> {
 
 	protected T repository;
 
@@ -30,6 +31,12 @@ public abstract class GenericServiceImpl<E extends Entidade, T extends CrudRepos
 	public List<E> getAll() {
 
 		return (List<E>) repository.findAll();
+	}
+
+	public E findOne(Long id) {
+
+		return repository.findOne(id);
+
 	}
 
 }

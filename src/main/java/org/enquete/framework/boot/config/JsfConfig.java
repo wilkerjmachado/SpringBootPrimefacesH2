@@ -29,8 +29,8 @@ public class JsfConfig implements ServletContextAware, ServletContextInitializer
 
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
-		servletContext.setInitParameter("primefaces.THEME", "bootstrap");
-		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
+		servletContext.setInitParameter("primefaces.THEME", "casablanca");
+//		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
 		servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
 	}
 }

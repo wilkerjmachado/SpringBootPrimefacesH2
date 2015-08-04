@@ -11,4 +11,6 @@ public interface GenericService<E extends Entidade> {
 	public void delete(E entidade);
 
 	public List<E> getAll();
+	
+	public E findOne(Long id);
 }

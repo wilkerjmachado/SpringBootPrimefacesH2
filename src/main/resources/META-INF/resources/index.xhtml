@@ -4,53 +4,58 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
     xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:pm="http://primefaces.org/mobile">
      
-    <f:view renderKitId="PRIMEFACES_MOBILE" />
-     
     <h:head>
-
+    	<h:outputStylesheet library="css" name="bootstrap.min.css"/>
+    	<h:outputStylesheet library="css" name="styles.css"/>
+    	<h:outputScript library="js" name="bootstrap.min.js"/>
+    	<h:outputScript library="js" name="scripts.js"/>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Enquetes</title>
     </h:head>
      
     <h:body>
-         
-        <pm:page id="list">
-            <pm:header title="Lista de perguntas" swatch="b">
-                <p:commandButton styleClass="ui-btn-right ui-btn-inline" value="Nova pergunta" icon="ui-icon-plus" update="edit:editForm:editFormPanel" action="#{enqueteController.novaEntidade}"/>
-            </pm:header>
-             
-            <pm:content>
-                <h:form id="listForm">
-                    <p:dataList id="contactsList" value="#{enqueteController.formulario.lista}" var="entidade" pt:data-inset="true">
-                        <p:commandLink value="#{entidade.texto}" update="edit:editForm:editFormPanel" action="pm:edit?transition=flip">
-                            <f:setPropertyActionListener value="#{entidade}" target="#{enqueteController.formulario.entidade}" />
-                        </p:commandLink> 
-                    </p:dataList>
-                </h:form>
-            </pm:content>
-        </pm:page>
-         
-        <pm:page id="edit">
-            <pm:header title="Nova pergunta" swatch="b">
-                <p:button styleClass="ui-btn-left ui-btn-inline" value="Voltar" icon="ui-icon-arrow-l" outcome="pm:list?transition=flip"/>
-            </pm:header>
-             
-            <pm:content>
-                <h:form id="editForm">
-                    <p:outputPanel id="editFormPanel">
-                        <pm:field>
-                            <p:outputLabel for="texto" value="Pergunta: " />
-                            <p:inputText id="texto" value="#{enqueteController.formulario.entidade.texto}" />
-                        </pm:field>
- 
-                    </p:outputPanel>
-                     
-                    <p:commandButton value="Salvar" action="#{enqueteController.salvar}" update="list:listForm:contactsList" icon="ui-icon-check"/>
-                </h:form>
-                 
-            </pm:content>
-        </pm:page>
-         
+    
+    <h:form id="form">
+		<div class="container" id="main">
+			<div class="row">
+				<div class="col-md-4 col-sm-6"></div>
+				<div class="col-md-4 col-sm-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<a href="#" class="pull-right">Ver Todos</a>
+							<h4>Enquetes</h4>
+						</div>
+						<div class="panel-body">
+							<div class="list-group">
+								<ui:repeat id="contactsList" value="#{enqueteController.formulario.lista}" var="entidade" varStatus="status">
+					                <div class="list-group-item">
+						                <div class="row">
+						                	<a href="#" class="col-md-9">
+						                		#{entidade.texto}
+						                	</a>
+						                	<div class="col-md-3" style="text-align: right;">
+						                		<p:commandButton actionListener="#{enqueteController.remover(entidade)}" update="@form" icon="ui-icon-trash"/>
+						                	</div>
+						                </div>
+					                </div>
+								</ui:repeat>
+				            </div>
+				            <hr/>
+				            <div class="col-sm-12" style="text-align: center;">
+								<p:inputText placeholder="Nova enquete" value="#{enqueteController.formulario.entidade.texto}" style="width:85%"/>
+								<p:commandButton actionListener="#{enqueteController.salvar()}" update="@form" icon="ui-icon-plus"/>
+				            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</h:form>
+
     </h:body>
      
 </html>
