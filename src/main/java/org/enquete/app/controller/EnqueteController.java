@@ -25,30 +25,43 @@ public class EnqueteController extends GenericController<Pergunta, PerguntaFormu
 	}
 
 	public void salvarResposta() {
-		
-		if(validarCaptha()){
-			
+
+		if (validarCaptha()) {
+
 			this.getFormulario().getResposta().setPergunta(this.getFormulario().getEntidade());
-			
+
 			this.respostaService.saveOrUpdate(this.getFormulario().getResposta());
-			
+
 			this.getFormulario().setEntidade(this.getService().findOne(this.getFormulario().getEntidade().getId()));
-			
+
 			this.getFormulario().setResposta(new Resposta());
-			
+
 			this.mostrarMensagem("Item excluído com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
 		}
 	}
-	
+
+	public String pageEdit() {
+
+		this.iniciarCampos();
+
+		return "adm/index";
+	}
+
+	public String pageList() {
+
+		this.iniciarCampos();
+
+		return "/index";
+	}
+
 	@Override
 	public void salvar() {
 
-		if(validarCaptha()){
-			
+		if (validarCaptha()) {
+
 			super.salvar();
 		}
 	}
-
 
 	@Override
 	protected void iniciarCampos() {
