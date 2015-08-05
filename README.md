@@ -1,5 +1,5 @@
-# spring-boot-jsf-
-Aplicação de exemplo Spring Boot configurado com JSF 2.2 e 5.2 PrimeFaces.
+# spring-boot-jsf-PrimeFaces
+Aplicação de enquete usando Spring Boot configurado com JSF 2.2 e 5.2 PrimeFaces.
 
 Depois de baixar a aplicação, execute:
 
