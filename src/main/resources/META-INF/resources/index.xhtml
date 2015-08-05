@@ -18,64 +18,29 @@
      
     <h:body>
     
-    <h:form id="form">
-    	 
-		<div class="container" id="main">
-			
-			<div class="row">
-			
-				<div class="span12" style="width: 400px; margin: 0 auto; float: none;">
+	    <h:form id="form">
+	    
+	   <div class="navbar navbar-default" id="subnav">
+		    <div class="col-md-12">
+		        <div class="navbar-header">
+		        	<h:commandLink value="Nova enquete" styleClass="navbar-btn btn btn-default btn-plus dropdown-toggle" action="adm/index"/>
+		        </div>
+		     </div>	
+		</div>
+	    	 
+			<div class="container" id="main">
 				
-					<div class="panel panel-default">
-						
-						<div class="col-sm-12">
-							<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-						</div>
-						
-						<ui:fragment rendered="#{!enqueteController.formulario.mostrarRespostas}">
-						
-							<div class="panel-heading">
-								<h4>Enquetes</h4>
-							</div>
-							<div class="panel-body">
-								<div class="list-group">
-									<ui:repeat id="contactsList" value="#{enqueteController.formulario.lista}" var="entidade" varStatus="status">
-						                <div class="list-group-item">
-							                <div class="row">
-										    	<p:remoteCommand name="verRespostas#{entidade.id}" update="@form" actionListener="#{enqueteController.visualizarRespostas(entidade)}" />
-							                	<div class="col-md-9 item break-word" onclick="verRespostas#{entidade.id}()">
-							                		#{entidade.texto}
-							                	</div>
-							                	<div class="col-md-3" style="text-align: right;">
-							                		<p:commandButton actionListener="#{enqueteController.remover(entidade)}" update="@form" icon="ui-icon-trash">
-							                		 	<p:confirm header="Alerta" message="Confirma operação?" icon="ui-icon-alert" />
-							                		</p:commandButton>
-							                	</div>
-							                </div>
-						                </div>
-									</ui:repeat>
-					            </div>
-					            <hr/>
-					            <div class="col-sm-12" style="text-align: center;">
-					            
-					            	<div class="g-recaptcha" data-sitekey="6Lcq0goTAAAAAMMGB4sfVn157Acy9bUA5FmrPECL"></div>
-							        <br/>            
-									<p:inputTextarea placeholder="Nova enquete" value="#{enqueteController.formulario.entidade.texto}" style="width:100%"/>
-									<p:commandButton action="#{enqueteController.salvar()}" value="Salvar" title="Salvar" styleClass="pull-right" ajax="false"/>
-					            </div>
-							</div>
-							
-						</ui:fragment>
-						
-						<ui:fragment rendered="#{enqueteController.formulario.mostrarRespostas}">
-						
-							<div class="panel-heading">
-								<p:commandLink update="@form" styleClass="pull-right" value="Voltar" action="#{enqueteController.mostrarEnquetes()}" ajax="false"/>
-								<h4>#{enqueteController.formulario.entidade.texto}</h4>
-							</div>
-							
-							<div class="panel-body">
-								<div class="list-group">
+				<div class="row">
+					
+					<ui:repeat id="list" value="#{enqueteController.formulario.lista}" var="entidade" varStatus="status">
+					
+						<div class="col-md-4 col-sm-6">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4>#{entidade.texto}</h4>
+									<h6>#{entidade.descricao}</h6>
+								</div>
+								<div class="panel-body">
 									<ui:repeat value="#{enqueteController.formulario.entidade.listaRespostas}" var="resp" varStatus="status">
 						                <div class="list-group-item">
 							                <div class="row" >
@@ -85,35 +50,17 @@
 							                </div>
 						                </div>
 									</ui:repeat>
-					            </div>
-					            <hr/>
-					            <div class="col-sm-12" style="text-align: center;">
-					            	<div class="g-recaptcha" data-sitekey="6Lcq0goTAAAAAMMGB4sfVn157Acy9bUA5FmrPECL"></div>
-							        <br/>  
-									<p:inputTextarea placeholder="Nova resposta" value="#{enqueteController.formulario.resposta.texto}" style="width:100%"/>
-									<p:commandButton action="#{enqueteController.salvarResposta()}" value="Salvar" title="Salvar" styleClass="pull-right" ajax="false" />
-					            </div>
+								</div>
 							</div>
-							
-						</ui:fragment>
-						
-					</div>
+						</div>
+					
+					</ui:repeat>
 					
 				</div>
 				
 			</div>
 			
-		</div>
-		
-		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-		
-	        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-	        
-	        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-	        
-	    </p:confirmDialog>
-		
-	</h:form>
+		</h:form>
 
     </h:body>
      

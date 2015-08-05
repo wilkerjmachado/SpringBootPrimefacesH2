@@ -18,7 +18,6 @@ body {
 
 .navbar-default {
 	background-color: #f4f4f4;
-	margin-top: 50px;
 	border-width: 0;
 	z-index: 5;
 }
@@ -182,7 +181,7 @@ h3, h4, h5 {
 }
 
 #main {
-	padding-top: 120px;
+	padding-top: 60px;
 }
 
 body {

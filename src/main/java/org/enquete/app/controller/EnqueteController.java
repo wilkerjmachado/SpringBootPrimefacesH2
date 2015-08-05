@@ -49,20 +49,6 @@ public class EnqueteController extends GenericController<Pergunta, PerguntaFormu
 		}
 	}
 
-	public void visualizarRespostas(Pergunta pergunta) {
-
-		this.getFormulario().setEntidade(pergunta);
-
-		this.getFormulario().setMostrarRespostas(Boolean.TRUE);
-
-	}
-
-	public void mostrarEnquetes() {
-
-		this.iniciarCampos();
-
-		this.getFormulario().setMostrarRespostas(Boolean.FALSE);
-	}
 
 	@Override
 	protected void iniciarCampos() {
