@@ -31,6 +31,8 @@ public class JsfConfig implements ServletContextAware, ServletContextInitializer
 	public void onStartup(ServletContext servletContext) throws ServletException {
 		servletContext.setInitParameter("primefaces.THEME", "casablanca");
 //		servletContext.setInitParameter("primefaces.CLIENT_SIDE_VALIDATION", "true");
+//		servletContext.setInitParameter("primefaces.PUBLIC_CAPTCHA_KEY", "6Lcq0goTAAAAAMMGB4sfVn157Acy9bUA5FmrPECL");
+//		servletContext.setInitParameter("primefaces.PRIVATE_CAPTCHA_KEY", "6Lcq0goTAAAAAKOxVyBOdRfZRcUSM23aFJtP13MX");
 		servletContext.setInitParameter("javax.faces.PROJECT_STAGE", "Development");
 	}
 }

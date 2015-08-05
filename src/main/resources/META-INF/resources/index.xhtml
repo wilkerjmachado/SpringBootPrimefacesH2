@@ -6,13 +6,14 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
      
     <h:head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Enquetes</title>
     	<h:outputStylesheet library="css" name="bootstrap.min.css"/>
     	<h:outputStylesheet library="css" name="styles.css"/>
     	<h:outputScript library="js" name="bootstrap.min.js"/>
     	<h:outputScript library="js" name="scripts.js"/>
-		<meta charset="utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-		<title>Enquetes</title>
+    	<script src='https://www.google.com/recaptcha/api.js'></script>
     </h:head>
      
     <h:body>
@@ -56,8 +57,11 @@
 					            </div>
 					            <hr/>
 					            <div class="col-sm-12" style="text-align: center;">
+					            
+					            	<div class="g-recaptcha" data-sitekey="6Lcq0goTAAAAAMMGB4sfVn157Acy9bUA5FmrPECL"></div>
+							        <br/>            
 									<p:inputTextarea placeholder="Nova enquete" value="#{enqueteController.formulario.entidade.texto}" style="width:100%"/>
-									<p:commandButton actionListener="#{enqueteController.salvar()}" value="Salvar" title="Salvar" styleClass="pull-right" update="@form" />
+									<p:commandButton action="#{enqueteController.salvar()}" value="Salvar" title="Salvar" styleClass="pull-right" ajax="false"/>
 					            </div>
 							</div>
 							
@@ -66,7 +70,7 @@
 						<ui:fragment rendered="#{enqueteController.formulario.mostrarRespostas}">
 						
 							<div class="panel-heading">
-								<p:commandLink update="@form" styleClass="pull-right" value="Voltar" actionListener="#{enqueteController.mostrarEnquetes()}"/>
+								<p:commandLink update="@form" styleClass="pull-right" value="Voltar" action="#{enqueteController.mostrarEnquetes()}" ajax="false"/>
 								<h4>#{enqueteController.formulario.entidade.texto}</h4>
 							</div>
 							
@@ -84,8 +88,10 @@
 					            </div>
 					            <hr/>
 					            <div class="col-sm-12" style="text-align: center;">
+					            	<div class="g-recaptcha" data-sitekey="6Lcq0goTAAAAAMMGB4sfVn157Acy9bUA5FmrPECL"></div>
+							        <br/>  
 									<p:inputTextarea placeholder="Nova resposta" value="#{enqueteController.formulario.resposta.texto}" style="width:100%"/>
-									<p:commandButton actionListener="#{enqueteController.salvarResposta()}" value="Salvar" title="Salvar" styleClass="pull-right" update="@form" />
+									<p:commandButton action="#{enqueteController.salvarResposta()}" value="Salvar" title="Salvar" styleClass="pull-right" ajax="false" />
 					            </div>
 							</div>
 							

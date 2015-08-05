@@ -24,39 +24,51 @@ public class EnqueteController extends GenericController<Pergunta, PerguntaFormu
 
 	}
 
-	public void salvarResposta(){
+	public void salvarResposta() {
 		
-		this.getFormulario().getResposta().setPergunta(this.getFormulario().getEntidade());
-		
-		this.respostaService.saveOrUpdate(this.getFormulario().getResposta());
-		
-		this.getFormulario().setEntidade(this.getService().findOne(this.getFormulario().getEntidade().getId()));
-		
-		this.getFormulario().setResposta(new Resposta());
-		
-		this.mostrarMensagem("Item excluído com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
+		if(validarCaptha()){
+			
+			this.getFormulario().getResposta().setPergunta(this.getFormulario().getEntidade());
+			
+			this.respostaService.saveOrUpdate(this.getFormulario().getResposta());
+			
+			this.getFormulario().setEntidade(this.getService().findOne(this.getFormulario().getEntidade().getId()));
+			
+			this.getFormulario().setResposta(new Resposta());
+			
+			this.mostrarMensagem("Item excluído com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
+		}
 	}
 	
-	public void visualizarRespostas(Pergunta pergunta){
-		
+	@Override
+	public void salvar() {
+
+		if(validarCaptha()){
+			
+			super.salvar();
+		}
+	}
+
+	public void visualizarRespostas(Pergunta pergunta) {
+
 		this.getFormulario().setEntidade(pergunta);
-		
+
 		this.getFormulario().setMostrarRespostas(Boolean.TRUE);
-		
+
 	}
-	
-	public void mostrarEnquetes(){
-		
+
+	public void mostrarEnquetes() {
+
 		this.iniciarCampos();
-		
+
 		this.getFormulario().setMostrarRespostas(Boolean.FALSE);
 	}
-	
+
 	@Override
 	protected void iniciarCampos() {
 
 		this.getFormulario().setResposta(new Resposta());
-		
+
 		super.iniciarCampos();
 	}
 

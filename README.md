@@ -1,10 +1,14 @@
-# spring-boot-jsf
-Spring Boot sample application configurated with JSF 2.2 and PrimeFaces 5.2.
+# spring-boot-jsf-
+Aplicação de exemplo Spring Boot configurado com JSF 2.2 e 5.2 PrimeFaces.
 
-After starting the application by
+Depois de baixar a aplicação, execute:
 
-`java -jar spring-boot-jsf-0.0.1-SNAPSHOT.jar`
+`mvn install`
 
-you can access the demo JSF page at [http://localhost:8080/index.xhtml](http://localhost:8080/index.xhtml).
+Para rodar a aplicação, execute:
+
+`java -jar Enquete.jar`
+
+você pode acessar a página de demonstração em JSF [http://localhost:8080/index.jsf](http://localhost:8080/index.jsf).
 
 

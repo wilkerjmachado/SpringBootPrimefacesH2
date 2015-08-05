@@ -7,7 +7,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
+import org.enquete.framework.captha.ReCaptchaChecker;
+import org.enquete.framework.captha.ReCaptchaCheckerReponse;
 import org.enquete.framework.dominio.Entidade;
 import org.enquete.framework.formulario.GenericForm;
 import org.enquete.framework.service.GenericService;
@@ -46,7 +49,7 @@ public abstract class GenericController<E extends Entidade, F extends GenericFor
 	public void remover(E entidade) {
 
 		this.getService().delete(entidade);
-		
+
 		this.mostrarMensagem("Item excluído com sucesso!", "Sucesso", FacesMessage.SEVERITY_INFO);
 
 		this.iniciarCampos();
@@ -80,11 +83,31 @@ public abstract class GenericController<E extends Entidade, F extends GenericFor
 
 		}
 	}
-	
-	public void mostrarMensagem(String msg, String titulo, Severity severity){
-		
+
+	public void mostrarMensagem(String msg, String titulo, Severity severity) {
+
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, titulo, msg));
+
+	}
+
+	public Boolean validarCaptha() {
+
+		Boolean restult = Boolean.TRUE;
 		
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+
+		String response = request.getParameter("g-recaptcha-response");
+
+		ReCaptchaCheckerReponse rep = ReCaptchaChecker.checkReCaptcha(response);
+		
+		if(!rep.getSuccess()){
+			
+			restult = Boolean.FALSE;
+			
+			this.mostrarMensagem("Captha inválido!", "Erro", FacesMessage.SEVERITY_ERROR);
+		}
+		
+		return restult;
 	}
 
 	public F getFormulario() {
