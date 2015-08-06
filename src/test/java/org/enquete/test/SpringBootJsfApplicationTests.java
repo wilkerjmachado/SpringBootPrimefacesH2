@@ -1,6 +1,5 @@
 package org.enquete.test;
 
-import org.enquete.app.dominio.Pergunta;
 import org.enquete.app.service.PerguntaService;
 import org.enquete.framework.boot.SpringBootJsfApplication;
 import org.junit.Test;
@@ -21,14 +20,6 @@ public class SpringBootJsfApplicationTests {
 	@Test
 	public void contextLoads() {
 		
-		Pergunta pergunta = new Pergunta();
-		pergunta.setTexto("çaççaça");
-		
-		pergunta = perguntaService.saveOrUpdate(pergunta);
-		
-		System.out.println(pergunta.getId() + " --------------------");
-		
-		perguntaService.delete(pergunta);
 	}
 
 }
