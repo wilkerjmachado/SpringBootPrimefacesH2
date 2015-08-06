@@ -31,7 +31,7 @@ public class RespostaController extends GenericController<Resposta, RespostaForm
 
 		} else {
 
-			this.mostrarMensagem("Preecha dados obrigatórios!", "Alerta", FacesMessage.SEVERITY_INFO);
+			this.mostrarMensagem("Preecha dados obrigatórios!", "Alerta", FacesMessage.SEVERITY_WARN);
 		}
 	}
 
