@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories("org.enquete")
 @EnableTransactionManagement
-public class H2Config extends SpringBootServletInitializer {
+public class BancoDadosConfig extends SpringBootServletInitializer {
 
 	@Value("${spring.datasource.driverClassName}")
 	private String driver;
@@ -41,6 +41,9 @@ public class H2Config extends SpringBootServletInitializer {
 
 	@Value("${spring.packageToSkan}")
 	private String packageToSkan;
+	
+	@Value("${spring.banco}")
+	private String banco;
 
 	@Bean
 	public DataSource dataSource() {
@@ -74,7 +77,7 @@ public class H2Config extends SpringBootServletInitializer {
 		HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
 		hibernateJpaVendorAdapter.setShowSql(false);
 		hibernateJpaVendorAdapter.setGenerateDdl(true);
-		hibernateJpaVendorAdapter.setDatabase(Database.H2);
+		hibernateJpaVendorAdapter.setDatabase(Database.valueOf(banco));
 		return hibernateJpaVendorAdapter;
 	}
 

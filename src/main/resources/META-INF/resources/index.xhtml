@@ -32,29 +32,85 @@
 				
 				<div class="row">
 					
-					<ui:repeat id="list" value="#{enqueteController.formulario.lista}" var="entidade" varStatus="status">
-					
-						<div class="col-md-4 col-sm-6">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4>#{entidade.texto}</h4>
-									<h6>#{entidade.descricao}</h6>
-								</div>
-								<div class="panel-body">
-									<ui:repeat value="#{enqueteController.formulario.entidade.listaRespostas}" var="resp" varStatus="status">
-						                <div class="list-group-item">
-							                <div class="row" >
-							                	<div class="col-md-12 break-word" >
-							                		#{resp.texto}
-							                	</div>
-							                </div>
-						                </div>
-									</ui:repeat>
-								</div>
+					<div class="col-sm-12">
+						<div class="panel panel-default">
+						
+							<div class="col-sm-12">
+								<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 							</div>
+							
+							<h:panelGroup id="panel">
+							
+								<p:remoteCommand name="atualizarLista" update="panel" actionListener="#{enqueteController.visualizarRespostas(enqueteController.formulario.entidade)}" />
+							
+								<ui:fragment rendered="#{!enqueteController.formulario.mostrarRespostas}">
+								
+									<div class="panel-heading">
+										<h4>Enquetes</h4>
+									</div>
+									<div class="panel-body">
+										<div class="list-group">
+											<ui:repeat id="contactsList" value="#{enqueteController.formulario.lista}" var="entidade" varStatus="status">
+								                <div class="list-group-item">
+									                <div class="row">
+										                <p:remoteCommand name="verRespostas#{entidade.id}" update="@form" actionListener="#{enqueteController.visualizarRespostas(entidade)}" />
+									                	<div class="col-md-12 item break-word" onclick="verRespostas#{entidade.id}()">
+									                		#{entidade.texto} - #{entidade.descricao}
+									                	</div>
+									                </div>
+								                </div>
+											</ui:repeat>
+							            </div>
+									</div>
+									
+								</ui:fragment>
+								
+								<ui:fragment rendered="#{enqueteController.formulario.mostrarRespostas}">
+						
+									<div class="panel-heading">
+										<p:commandLink update="@form" styleClass="pull-right" value="Voltar" actionListener="#{enqueteController.mostrarEnquetes()}" />
+										<h4>#{enqueteController.formulario.entidade.texto} - #{enqueteController.formulario.entidade.descricao}</h4>
+									</div>
+									
+									<div class="panel-body">
+									
+										<ui:fragment rendered="#{enqueteController.formulario.entidade.tipoEnquete == 'VOTACAO'}">
+											<p:selectOneRadio value="#{opcaoController.formulario.entidade.id}"  layout="grid" columns="1">
+									            <f:selectItems value="#{enqueteController.formulario.entidade.opcoes}" var="opcao" itemLabel="#{opcao.conteudo} - votos: #{opcao.quantidadeVoto}" itemValue="#{opcao.id}"/>
+									        </p:selectOneRadio>
+									        <p:commandButton actionListener="#{opcaoController.salvar(enqueteController.formulario.entidade)}" oncomplete="atualizarLista()" value="Votar" update="@form" title="Votar" />
+										</ui:fragment>
+										
+										<ui:fragment rendered="#{enqueteController.formulario.entidade.tipoEnquete == 'RESPOSTA'}">
+										
+											<div class="list-group">
+												<ui:repeat value="#{enqueteController.formulario.entidade.listaRespostas}" var="resp" varStatus="status">
+									                <div class="list-group-item">
+										                <div class="row" >
+										                	<div class="col-md-12 break-word" >
+										                		#{resp.texto}
+										                	</div>
+										                </div>
+									                </div>
+												</ui:repeat>
+								            </div>
+								            <hr/>
+								            <div class="col-sm-12" style="text-align: center;">
+												<p:inputTextarea placeholder="Nova resposta" value="#{respostaController.formulario.entidade.texto}" style="width:100%"/>
+												<p:commandButton actionListener="#{respostaController.salvar(enqueteController.formulario.entidade)}" oncomplete="atualizarLista()" value="Salvar" update="@form" title="Salvar" styleClass="pull-right"  />
+								            </div>
+								            
+										</ui:fragment>
+										
+									</div>
+									
+								</ui:fragment>
+								
+							</h:panelGroup>
+							
 						</div>
-					
-					</ui:repeat>
+						
+					</div>
 					
 				</div>
 				

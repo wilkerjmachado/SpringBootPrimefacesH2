@@ -32,14 +32,14 @@
 			
 			<div class="row">
 			
-				<div class="panel panel-default">
+				<div class="panel panel-default"> 
 				
 					<div class="col-sm-12">
 						<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 					</div>
 					
 					<div class="panel-heading">
-						<p:commandButton action="#{enqueteController.novaEntidade()}" value="Limpar Campos" styleClass="btn btn-default" ajax="false" icon="ui-icon-refresh" />
+						<p:commandButton action="#{enqueteController.novaEntidade()}" value="Limpar Campos" styleClass="pull-right btn btn-default" ajax="false" icon="ui-icon-refresh" />
 						<h4>Manter enquetes</h4>
 					</div>
 					
@@ -52,8 +52,40 @@
 						    <label >Descrição</label>
 						    <h:inputText styleClass="form-control" label="Descrição" value="#{enqueteController.formulario.entidade.descricao}"/>
 						</div>
+						
+						<h:panelGrid columns="2" cellpadding="10">
+							<label>Tipo enquete: </label>
+							<p:selectOneMenu value="#{enqueteController.formulario.entidade.tipoEnquete}">
+							  <f:selectItems value="#{enqueteController.formulario.tiposEnquete}" var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.chave}"/>
+							  <p:ajax update="fragment" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						
+						<h:panelGrid id="fragment">
+							<ui:fragment rendered="#{enqueteController.formulario.entidade.tipoEnquete == 'VOTACAO'}">
+								<div class="form-group">
+								    <label >Opção</label>
+									<h:inputText id="inputOpcao" styleClass="form-control" value="#{enqueteController.formulario.opcao.conteudo}"/>
+								</div>
+								<p:commandButton actionListener="#{enqueteController.addOpcao()}" value="Adicionar" styleClass="btn btn-default" update="tableOpcao inputOpcao" icon="ui-icon-plus" />
+								<p:dataTable id="tableOpcao" var="opcao" rowIndexVar="index" value="#{enqueteController.formulario.entidade.opcoes}">
+									<p:column headerText="Opção">
+								        <h:outputText value="#{opcao.conteudo}" />
+								    </p:column>
+								 
+								    <p:column headerText="Ação">
+								    	<p:commandButton actionListener="#{enqueteController.removerOpcao(opcao, index)}" value="Excluir" update="tableOpcao" styleClass="btn btn-default"  icon="ui-icon-trash" >
+								    			<p:confirm header="Alerta" message="Confirma operação?" icon="ui-icon-alert" />
+								    	</p:commandButton>
+								    </p:column>
+								</p:dataTable>
+							</ui:fragment>
+						</h:panelGrid>
+						
+						<br/>
 						<div class="g-recaptcha" data-sitekey="6Lcq0goTAAAAAMMGB4sfVn157Acy9bUA5FmrPECL"></div>
 						<br/>
+						
 						<p:commandButton action="#{enqueteController.salvar()}" value="Salvar" styleClass="btn btn-default" ajax="false" icon="ui-icon-plus" />
 					</div>
 	
@@ -72,7 +104,7 @@
 					
 						<div class="col-sm-12">
 					
-							<p:dataTable var="pergunta" value="#{enqueteController.formulario.lista}">
+							<p:dataTable id="tablePerguntas" var="pergunta" value="#{enqueteController.formulario.lista}">
 							    <p:column headerText="Texto">
 							        <h:outputText value="#{pergunta.texto}" />
 							    </p:column>
@@ -86,7 +118,9 @@
 							    </p:column>
 							 
 							    <p:column headerText="Ação">
-							    	<p:commandButton actionListener="#{enqueteController.remover(pergunta)}" value="Excluir" update="@this" styleClass="btn btn-default"  icon="ui-icon-trash" />
+							    	<p:commandButton actionListener="#{enqueteController.remover(pergunta)}" value="Excluir" update="tablePerguntas" styleClass="btn btn-default"  icon="ui-icon-trash" >
+							    		<p:confirm header="Alerta" message="Confirma operação?" icon="ui-icon-alert" />
+							    	</p:commandButton>
 							    </p:column>
 							    
 							</p:dataTable>

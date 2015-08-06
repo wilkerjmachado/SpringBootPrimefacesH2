@@ -34,6 +34,9 @@ public class Opcao extends Entidade {
 	}
 
 	public Integer getQuantidadeVoto() {
+		if(quantidadeVoto == null){
+			quantidadeVoto = 0;
+		}
 		return quantidadeVoto;
 	}
 

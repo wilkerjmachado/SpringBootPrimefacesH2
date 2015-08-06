@@ -21,12 +21,10 @@ public class Pergunta extends Entidade {
 	@Enumerated(EnumType.STRING)
 	private EnumTipoEnquete tipoEnquete;
 
-	// TODO Coloquei EAGER mas nao e correto teria que ser LAZY e criar um
-	// filtro do spring que inicializa a propriedade sobre demanda
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Resposta.class)
 	private List<Resposta> listaRespostas;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pergunta", cascade = CascadeType.ALL, orphanRemoval = true, targetEntity = Opcao.class)
 	private List<Opcao> opcoes;
 
 	public String getTexto() {

@@ -1,5 +1,6 @@
 package org.enquete.app.service.impl;
 
+import org.enquete.app.dominio.Opcao;
 import org.enquete.app.dominio.Pergunta;
 import org.enquete.app.service.PerguntaService;
 import org.enquete.app.service.repository.PerguntaRepository;
@@ -16,4 +17,15 @@ public class PerguntaServiceImpl extends GenericServiceImpl<Pergunta, PerguntaRe
 		super(perguntaRepository);
 	}
 
+	@Override
+	public Pergunta saveOrUpdate(Pergunta entidade) {
+
+		for(Opcao opcao : entidade.getOpcoes()){
+			
+			opcao.setPergunta(entidade);
+			
+		}
+		
+		return super.saveOrUpdate(entidade);
+	}
 }
